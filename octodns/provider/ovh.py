@@ -276,6 +276,15 @@ class OvhProvider(BaseProvider):
     _params_for_CNAME = _params_for_single
     _params_for_PTR = _params_for_single
 
+    @staticmethod
+    def _params_for_DKIM(record):
+        yield {
+            'target': record.value.replace('\;', ';'),
+            'subDomain': record.name,
+            'ttl': record.ttl,
+            'fieldType': record._type
+        }
+
     def get_records(self, zone_name):
         """
         List all records of a DNS zone

@@ -233,6 +233,20 @@ class TestOvhProvider(TestCase):
         'value': '1:1ec:1::1',
     }))
 
+    # DKIM
+    api_record.append({
+        'fieldType': 'DKIM',
+        'ttl': 200,
+        'target': 'k=rsa; p=MIGfMA0GC',
+        'subDomain': 'm._domainkey',
+        'id': 16
+    })
+    expected.add(Record.new(zone, 'm._domainkey', {
+        'ttl': 200,
+        'type': 'DKIM',
+        'value': 'k=rsa\; p=MIGfMA0GC',
+    }))
+
     @patch('ovh.Client')
     def test_populate(self, client_mock):
         provider = OvhProvider('test', 'endpoint', 'application_key',
@@ -342,6 +356,10 @@ class TestOvhProvider(TestCase):
                                         u'info@bar'
                                         u'.example.com!" .',
                                  ttl=500),
+                             call(u'/domain/zone/unit.tests/record',
+                                  fieldType=u'DKIM', subDomain='m._domainkey',
+                                  target=u'k=rsa; p=MIGfMA0GC',
+                                  ttl=200),
                             call(u'/domain/zone/unit.tests/refresh')]
 
                         post_mock.assert_has_calls(wanted_calls)
