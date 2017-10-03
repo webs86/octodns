@@ -33,7 +33,7 @@ class OvhProvider(BaseProvider):
     SUPPORTS_GEO = False
 
     SUPPORTS = set(('A', 'AAAA', 'CNAME', 'MX', 'NAPTR', 'NS', 'PTR', 'SPF',
-                    'SRV', 'SSHFP', 'TXT'))
+                    'SRV', 'SSHFP', 'TXT', 'DKIM'))
 
     def __init__(self, id, endpoint, application_key, application_secret,
                  consumer_key, *args, **kwargs):
@@ -191,14 +191,14 @@ class OvhProvider(BaseProvider):
     _data_for_SPF = _data_for_multiple
     _data_for_PTR = _data_for_single
     _data_for_CNAME = _data_for_single
-    
+
     @staticmethod
     def _data_for_DKIM(_type, records):
         record = records[0]
         return {
             'ttl': record['ttl'],
             'type': _type,
-            'value': record['target']
+            'value': record['target'].replace(';', '\;')
         }
 
     @staticmethod
