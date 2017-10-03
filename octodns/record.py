@@ -812,7 +812,7 @@ class TxtRecord(_ValuesMixin, Record):
 
 
 class DkimRecord(_ValuesMixin, Record):
-    _type = 'TXT'
+    _type = 'DKIM'
 
     @classmethod
     def _validate_value(cls, value):
