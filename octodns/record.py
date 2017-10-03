@@ -91,6 +91,7 @@ class Record(object):
                 'SRV': SrvRecord,
                 'SSHFP': SshfpRecord,
                 'TXT': TxtRecord,
+                'DKIM': DkimRecord,
             }[_type]
         except KeyError:
             raise Exception('Unknown record type: "{}"'.format(_type))
@@ -798,6 +799,19 @@ class SrvRecord(_ValuesMixin, Record):
 
 
 class TxtRecord(_ValuesMixin, Record):
+    _type = 'TXT'
+
+    @classmethod
+    def _validate_value(cls, value):
+        if _unescaped_semicolon_re.search(value):
+            return ['unescaped ;']
+        return []
+
+    def _process_values(self, values):
+        return values
+
+
+class DkimRecord(_ValuesMixin, Record):
     _type = 'TXT'
 
     @classmethod
