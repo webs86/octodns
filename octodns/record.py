@@ -820,5 +820,5 @@ class DkimRecord(_ValuesMixin, Record):
             return ['unescaped ;']
         return []
 
-    def _process_values(self, values):
+    def _process_value(self, value):
         return value
