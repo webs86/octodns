@@ -821,4 +821,4 @@ class DkimRecord(_ValuesMixin, Record):
         return []
 
     def _process_values(self, values):
-        return values
+        return value
