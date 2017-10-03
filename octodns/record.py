@@ -811,7 +811,7 @@ class TxtRecord(_ValuesMixin, Record):
         return values
 
 
-class DkimRecord(_ValuesMixin, Record):
+class DkimRecord(_ValueMixin, Record):
     _type = 'DKIM'
 
     @classmethod
