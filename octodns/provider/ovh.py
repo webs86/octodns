@@ -191,6 +191,15 @@ class OvhProvider(BaseProvider):
     _data_for_SPF = _data_for_multiple
     _data_for_PTR = _data_for_single
     _data_for_CNAME = _data_for_single
+    
+    @staticmethod
+    def _data_for_DKIM(_type, records):
+        record = records[0]
+        return {
+            'ttl': record['ttl'],
+            'type': _type,
+            'value': record['target']
+        }
 
     @staticmethod
     def _params_for_multiple(record):
